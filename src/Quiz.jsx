@@ -31,17 +31,17 @@ export default function Quiz(props) {
             
         }, []); 
         
-    React.useEffect(() => {
+    // React.useEffect(() => {
 
             
             
             
-        }, [questions]); 
+    //     }, [questions]); 
 
     
     
     function restartQuiz(){
-        console.log("Restarting!")
+        // console.log("Restarting!")
         setScore(0)
         setGameEnded(false)
         getQuestions()
