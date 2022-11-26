@@ -111,7 +111,7 @@ export default function Quiz(props) {
     
     return (
         <div>
-            {(questions.length===0) && <h1>Getting questions from API...</h1>}
+            {(questions.length===0) && <h1 className="hero">Getting questions from API...</h1>}
             <h1 className="hero">Quizzical</h1>
             <h2 className="hero-subtext">A super-fun quiz-game!</h2>
             {questElements}
