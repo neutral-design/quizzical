@@ -2,6 +2,7 @@ import React from "react"
 import Question from "./Question"
 
 export default function Quiz(props) {
+    const [showCats, setShowCats] = React.useState(false)
     const [categories, setCategories] = React.useState([])
     const [selectedCat, setSelectedCat] = React.useState(null)
     const [questions, setQuestions] = React.useState([])
@@ -17,7 +18,7 @@ export default function Quiz(props) {
         fetch('https://opentdb.com/api_category.php')
             .then((response) => response.json())
             .then((data) => {           
-                console.log(data.trivia_categories)
+                // console.log(data.trivia_categories)
                 setCategories(data.trivia_categories)
                 
                 });
@@ -60,7 +61,7 @@ export default function Quiz(props) {
     
     
     function restartQuiz(){
-        console.log("Restarting!")
+        // console.log("Restarting!")
         setScore(0)
         setGameEnded(false)
         getQuestions()
@@ -144,9 +145,14 @@ export default function Quiz(props) {
             <h2 className="hero-subtext">A super-fun quiz-game!</h2>
             
             <div className="dropdown">
-            <button class="dropbtn">{selectedCat ? `Category: ${selectedCat.name}`:"Categories"}</button>
+            <button 
+                class="dropbtn"
+                onClick={(event)=>{
+                    setShowCats(prevState => !prevState)
+                }}
+            >{selectedCat ? `Category: ${selectedCat.name}`:"Categories"}</button>
                 <div class="dropdown-content">
-                    {categoryElements}
+                    {showCats && categoryElements}
                 </div>
             </div>
             {questElements}
