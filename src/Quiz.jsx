@@ -2,13 +2,31 @@ import React from "react"
 import Question from "./Question"
 
 export default function Quiz(props) {
-      
+    const [categories, setCategories] = React.useState([])
+    const [selectedCat, setSelectedCat] = React.useState(null)
     const [questions, setQuestions] = React.useState([])
     const [score, setScore] = React.useState(0)
     const [gameEnded, setGameEnded] = React.useState(false)
     
+    React.useEffect(()=>{
+        restartQuiz()
+    },[selectedCat])
+
+    function getCategories(){
+        // https://opentdb.com/api_category.php
+        fetch('https://opentdb.com/api_category.php')
+            .then((response) => response.json())
+            .then((data) => {           
+                console.log(data.trivia_categories)
+                setCategories(data.trivia_categories)
+                
+                });
+    }
+
     function getQuestions() {
-        fetch('https://opentdb.com/api.php?amount=5&type=multiple')
+        // https://opentdb.com/api.php?amount=5&category=17
+        const categoryString = selectedCat ? `&category=${selectedCat.id}`:""
+        fetch(`https://opentdb.com/api.php?amount=5&type=multiple${categoryString}`)
             .then((response) => response.json())
             .then((data) => {           
                 
@@ -27,6 +45,7 @@ export default function Quiz(props) {
     React.useEffect(() => {
             
             // console.log("Getting questions from API")
+            getCategories()
             getQuestions()
             
         }, []); 
@@ -41,7 +60,7 @@ export default function Quiz(props) {
     
     
     function restartQuiz(){
-        // console.log("Restarting!")
+        console.log("Restarting!")
         setScore(0)
         setGameEnded(false)
         getQuestions()
@@ -106,6 +125,15 @@ export default function Quiz(props) {
         )
     })
  
+    const categoryElements = categories.map(cat =>{
+        return (
+            <button
+                onClick={(event)=> {
+                    setSelectedCat(cat)
+                }}
+            >{cat.name}</button>
+        )
+    })
     
     
     
@@ -114,6 +142,13 @@ export default function Quiz(props) {
             {(questions.length===0) && <h1 className="hero">Getting questions from API...</h1>}
             <h1 className="hero">Quizzical</h1>
             <h2 className="hero-subtext">A super-fun quiz-game!</h2>
+            
+            <div className="dropdown">
+            <button class="dropbtn">{selectedCat ? `Category: ${selectedCat.name}`:"Categories"}</button>
+                <div class="dropdown-content">
+                    {categoryElements}
+                </div>
+            </div>
             {questElements}
             {gameEnded && <p className="score-text">You scored {score}/{questions.length} correct answers</p>}
             <button className="check-button" onClick={checkAnswers}>{gameEnded? "Play again": "Check answers"}</button>
