@@ -92,6 +92,7 @@ body {
 .answers-container {
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     
     border-bottom: 0.794239px solid #DBDEF0;
     
@@ -148,6 +149,13 @@ body {
     color: #293264;
 }
 
+.dropdown {
+    margin: 1rem;
+    display: flex;
+    justify-content: center;
+    
+}
+
 .dropbtn, .dropdown-content > button {
     font-family: 'Inter';
     font-style: normal;
@@ -161,16 +169,25 @@ body {
     margin: .25em;
 }
 
-.dropdown-content {
-    display: none;
-}
+
 
 .dropdown-content {
+    background-color: rgba(0, 0, 0,0.8);
     display: flex;
+    flex-wrap: wrap;
     position: absolute;
-    align-items: flex-start;
+    top: 1rem;
+    left: 1rem;
+    right: 1rem;
+    
+    align-items: center;
     flex-direction: column;
+    padding: 1rem;
 }
+.dropdown-content:hover {
+    /* background-color: rgba(0, 0, 0,0.2); */
+}
+
 
 /* .dropdown:hover .dropdown-content {display: flex;} */
 

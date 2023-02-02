@@ -50,13 +50,6 @@ export default function Quiz(props) {
             getQuestions()
             
         }, []); 
-        
-    // React.useEffect(() => {
-
-            
-            
-            
-    //     }, [questions]); 
 
     
     
@@ -131,6 +124,7 @@ export default function Quiz(props) {
             <button
                 onClick={(event)=> {
                     setSelectedCat(cat)
+                    setShowCats(prevState => !prevState)
                 }}
             >{cat.name}</button>
         )
@@ -139,7 +133,7 @@ export default function Quiz(props) {
     
     
     return (
-        <div>
+        <div className="main-container">
             {(questions.length===0) && <h1 className="hero">Getting questions from API...</h1>}
             <h1 className="hero">Quizzical</h1>
             <h2 className="hero-subtext">A super-fun quiz-game!</h2>
@@ -151,9 +145,10 @@ export default function Quiz(props) {
                     setShowCats(prevState => !prevState)
                 }}
             >{selectedCat ? `Category: ${selectedCat.name}`:"Categories"}</button>
-                <div class="dropdown-content">
-                    {showCats && categoryElements}
-                </div>
+                {showCats && <div class="dropdown-content">
+                    {categoryElements}
+
+                </div>}
             </div>
             {questElements}
             {gameEnded && <p className="score-text">You scored {score}/{questions.length} correct answers</p>}
